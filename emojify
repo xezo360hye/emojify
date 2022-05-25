@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Emojis to use.
+happy="🔥😂😊😁🙏😎💪😋😇🎉🙌🤘👍🤑🤩🤪🤠🥳😌🤤😍😀"
+sad="😭😔😒😩😢🤦🤷😱👎🤨😑😬🙄🤮😵🤯🧐😕😟😤😡🤬"
+
+
+# Select category (-ies) to use.
+use="$1"
+shift
+if [ -z "$use" ]; then
+	select use in happy sad both; do
+		break
+	done
+fi
+
+
+# Select emoji to use.
+case "$use" in
+	happy) emoji="$happy" ;;
+	sad)   emoji="$sad" ;;
+	both)  emoji="$happy$sad" ;;
+esac
+
+
+# Get string
+str="$@"
+if [ -z "$str" ]; then
+	read -p "Enter your string: " str
+fi
+
+
+# Replace spaces with emojis.
+for word in $str; do
+	echo -n "$word${emoji:$RANDOM%${#emoji}:1}"
+done
+
+
+# Print newline.
+echo
